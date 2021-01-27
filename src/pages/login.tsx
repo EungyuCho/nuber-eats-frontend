@@ -9,7 +9,7 @@ import {
 import nuberLogo from "../images/logo.svg";
 import { Button } from "../components/button";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { authTokenVar, isLoggedInVar } from "../apollo";
 import { LOCALSTORAGE_TOKEN } from "../constant";
 
