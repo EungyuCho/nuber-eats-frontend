@@ -6,10 +6,13 @@ import {
   loginMutation,
   loginMutationVariables,
 } from "../__generated__/loginMutation";
+import nuberLogo from "../images/logo.svg";
+import { Button } from "../components/button";
+import { Link } from "react-router-dom";
 
 const LOGIN_MUTATION = gql`
-  mutation loginMutation($email: String!, $password: String!) {
-    login(input: { email: $email, password: $password }) {
+  mutation loginMutation($loginInput: LoginInput!) {
+    login(input: $loginInput) {
       ok
       token
       error
@@ -22,37 +25,68 @@ interface ILoginForm {
 }
 
 export const Login = () => {
-  const { register, getValues, errors, handleSubmit } = useForm<ILoginForm>();
-  const [loginMutation, { data }] = useMutation<
+  const {
+    register,
+    getValues,
+    errors,
+    handleSubmit,
+    formState,
+  } = useForm<ILoginForm>({
+    mode: "onChange",
+  });
+  const onCompleted = (data: loginMutation) => {
+    const {
+      login: { error, ok, token },
+    } = data;
+
+    if (ok) {
+      console.log(token);
+    } else {
+      if (error) {
+        console.log(error);
+      }
+    }
+  };
+  const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
     loginMutation,
     loginMutationVariables
-  >(LOGIN_MUTATION);
+  >(LOGIN_MUTATION, {
+    onCompleted,
+  });
   const onSubmit = () => {
-    const { email, password } = getValues();
-    loginMutation({
-      variables: {
-        email,
-        password,
-      },
-    });
+    if (!loading) {
+      const { email, password } = getValues();
+      loginMutation({
+        variables: {
+          loginInput: {
+            email,
+            password,
+          },
+        },
+      });
+    }
   };
-  console.log(data?.login);
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-800">
-      <div className="bg-white w-full max-w-lg py-10 rounded-lg text-center">
-        <h3 className="text-3xl text-gray-800">Log In</h3>
+    <div className="h-screen flex items-center flex-col mt-28 lg:mt-10">
+      <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
+        <img src={nuberLogo} className="w-52 mb-10" alt="logo" />
+        <h4 className="w-full test-left text-3xl mb-5 font-bold">
+          Welcome back
+        </h4>
         <form
-          className="flex flex-col mt-5 px-5"
+          className="grid gap-3 mt-5 w-full mb-3"
           onSubmit={handleSubmit(onSubmit)}
         >
           <input
-            ref={register({ required: "Email is required" })}
+            ref={register({
+              required: "Email is required",
+            })}
             required
             name="email"
             type="email"
             placeholder="Email"
-            className="bg-gray-300 shadow-inner focus:outline-none border-2 focus:border-opacity-50 focus:border-green-600 mb-3 py-3 px-5 rounded-lg"
+            className="input"
           />
           {errors.email?.message && (
             <FormError errorMessage={errors.email?.message} />
@@ -63,15 +97,26 @@ export const Login = () => {
             name="password"
             type="password"
             placeholder="Password"
-            className="bg-gray-300 shadow-inner focus:outline-none border-2 focus:border-opacity-50 focus:border-green-600 py-3 px-5 rounded-lg"
+            className="input"
           />
           {errors.password?.message && (
             <FormError errorMessage={errors.password?.message} />
           )}
-          <button className="bg-gray-800 py-3 px-5 text-white font-medium text-lg mt-3 rounded-lg focus:outline-none hover:opacity-90">
-            Log In
-          </button>
+          <Button
+            canClick={formState.isValid}
+            loading={loading}
+            actionText={"log in"}
+          />
+          {loginMutationResult?.login.error && (
+            <FormError errorMessage={loginMutationResult.login.error} />
+          )}
         </form>
+        <div>
+          New to Nuber?{" "}
+          <Link to="/create-account" className="text-lime-600 hover:underline">
+            Create an Account
+          </Link>
+        </div>
       </div>
     </div>
   );
