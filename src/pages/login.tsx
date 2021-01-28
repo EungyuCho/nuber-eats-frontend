@@ -6,12 +6,12 @@ import {
   loginMutation,
   loginMutationVariables,
 } from "../__generated__/loginMutation";
-import nuberLogo from "../images/logo.svg";
 import { Button } from "../components/button";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { authTokenVar, isLoggedInVar } from "../apollo";
 import { LOCALSTORAGE_TOKEN } from "../constant";
+import { NuberLogo } from "../components/nuber-logo";
 
 const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: LoginInput!) {
@@ -74,7 +74,7 @@ export const Login = () => {
         <title>Login | Nuber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
-        <img src={nuberLogo} className="w-52 mb-10" alt="logo" />
+        <NuberLogo mb={10} />
         <h4 className="w-full test-left text-3xl mb-5 font-bold">
           Welcome back
         </h4>

@@ -2,7 +2,6 @@ import React from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet";
-import nuberLogo from "../images/logo.svg";
 import { FormError } from "../components/form-error";
 import { Link, useHistory } from "react-router-dom";
 import { Button } from "../components/button";
@@ -12,6 +11,7 @@ import {
   createAccountMutationVariables,
 } from "../__generated__/createAccountMutation";
 import { UnderlineLink } from "../components/underline-link";
+import { NuberLogo } from "../components/nuber-logo";
 
 const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
@@ -81,7 +81,7 @@ export const CreateAccount = () => {
         <title>Create Account | Nuber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
-        <img src={nuberLogo} className="w-52 mb-10" alt="logo" />
+        <NuberLogo mb={10} />
         <h4 className="w-full test-left text-3xl mb-5 font-bold">
           Let's get started
         </h4>
