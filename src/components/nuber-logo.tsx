@@ -6,7 +6,7 @@ interface INuberLogoProps {
 }
 
 export const NuberLogo: React.FC<INuberLogoProps> = ({ width, mb }) => {
-  let marginBottom;
+  let marginBottom = "";
   if (mb) {
     marginBottom = "mb-" + mb;
   }
