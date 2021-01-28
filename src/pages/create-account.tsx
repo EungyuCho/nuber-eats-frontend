@@ -11,6 +11,7 @@ import {
   createAccountMutation,
   createAccountMutationVariables,
 } from "../__generated__/createAccountMutation";
+import { UnderlineLink } from "../components/underline-link";
 
 const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
@@ -48,7 +49,7 @@ export const CreateAccount = () => {
     } = data;
 
     if (ok) {
-      history.push("/login");
+      history.push("/");
     }
   };
   const [
@@ -133,10 +134,7 @@ export const CreateAccount = () => {
           )}
         </form>
         <div>
-          Already have an account?{" "}
-          <Link to="/" className="text-lime-600 hover:underline">
-            Log in now
-          </Link>
+          Already have an account? <UnderlineLink to="/" message="Log in now" />
         </div>
       </div>
     </div>
