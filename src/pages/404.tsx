@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { UnderlineLink } from "../components/underline-link";
 
 export const NotFound = () => (
