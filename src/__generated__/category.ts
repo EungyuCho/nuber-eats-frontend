@@ -24,6 +24,15 @@ export interface category_category_restaurants {
   isPromoted: boolean;
 }
 
+export interface category_category_category {
+  __typename: "Category";
+  id: number;
+  name: string;
+  coverImg: string | null;
+  slug: string;
+  restaurantCount: number;
+}
+
 export interface category_category {
   __typename: "CategoryOutput";
   ok: boolean;
@@ -31,6 +40,7 @@ export interface category_category {
   totalPages: number | null;
   totalResults: number | null;
   restaurants: category_category_restaurants[] | null;
+  category: category_category_category | null;
 }
 
 export interface category {
